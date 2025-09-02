@@ -1,12 +1,12 @@
 # Existing database server
 data "azurerm_mysql_flexible_server" "existing" {
-  name = var.mysql_flexible_server_name
+  name                = var.mysql_flexible_server_name
   resource_group_name = var.mysql_flexible_server_rg_name
 }
 
 # Existing log analytics workspace
 data "azurerm_log_analytics_workspace" "existing" {
-  name = var.log_analytics_workspace_name
+  name                = var.log_analytics_workspace_name
   resource_group_name = var.log_analytics_workspace_rg_name
 }
 
@@ -39,9 +39,9 @@ resource "azurerm_storage_account" "bookstack" {
 
 # File Share for BookStack config/storage
 resource "azurerm_storage_share" "bookstack_config" {
-  name                 = "bookstack-config"
+  name               = "bookstack-config"
   storage_account_id = azurerm_storage_account.bookstack.id
-  quota                = 100 # GB
+  quota              = 100 # GB
 }
 
 # MySQL Database
@@ -55,22 +55,22 @@ resource "azurerm_mysql_flexible_database" "bookstack" {
 
 # Random MySQL user password
 resource "random_password" "database" {
-  length = 24
+  length  = 24
   special = false
 }
 
 # MySQL user
 resource "mysql_user" "database" {
-  user = "${local.resource_name}_user"
-  host = "%"
+  user               = "${local.resource_name}_user"
+  host               = "%"
   plaintext_password = random_password.database.result
 }
 
 # MySQL grant
 resource "mysql_grant" "database" {
-  user = mysql_user.database.user
-  host = mysql_user.database.host
-  database = azurerm_mysql_flexible_database.bookstack.name
+  user       = mysql_user.database.user
+  host       = mysql_user.database.host
+  database   = azurerm_mysql_flexible_database.bookstack.name
   privileges = ["ALL PRIVILEGES"]
 }
 

@@ -44,4 +44,3 @@ variable "bookstack_app_url" {
   description = "BookStack application URL"
   type        = string
 }
-
