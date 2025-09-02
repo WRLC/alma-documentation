@@ -1,0 +1,5 @@
+.idea
+backend.hcl
+tfplan
+.terraform
+terraform.tfvars
